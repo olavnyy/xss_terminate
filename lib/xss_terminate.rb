@@ -17,7 +17,7 @@ module XssTerminate
       
       class_inheritable_reader :xss_terminate_options
       
-      include XssTerminate::InstanceMethods
+      include ::XssTerminate::InstanceMethods
     end
   end
   
