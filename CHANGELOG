@@ -1,5 +1,9 @@
 CHANGELOG
 
+* August 5, 2010 *
+Updated RailsSanitizer to check for Rails 3.
+Updated plugin to be a gem.
+
 * June 2, 2008 *
 
 Update xss_terminate to support ActiveRecordStore in Rails 2.1. Fixes issue #2.
