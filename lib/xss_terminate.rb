@@ -1,3 +1,6 @@
+require 'rails_sanitize'
+require 'html5lib_sanitize'
+
 module XssTerminate
   def self.included(base)
     base.extend(ClassMethods)
@@ -46,3 +49,6 @@ module XssTerminate
     end
   end
 end
+
+ActiveRecord::Base.send(:include, XssTerminate)
+ActiveRecord::Base.before_validation :sanitize_fields
