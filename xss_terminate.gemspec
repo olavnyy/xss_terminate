@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
-     "lib/html5lib_sanitize.rb",
      "lib/rails_sanitize.rb",
      "lib/tasks/xss_terminate_tasks.rake",
      "lib/xss_terminate.rb",
@@ -55,14 +54,6 @@ Gem::Specification.new do |s|
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
-
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<html5>, [">= 0.10.0"])
-    else
-      s.add_dependency(%q<html5>, [">= 0.10.0"])
-    end
-  else
-    s.add_dependency(%q<html5>, [">= 0.10.0"])
   end
 end
 

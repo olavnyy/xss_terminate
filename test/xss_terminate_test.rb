@@ -33,29 +33,6 @@ class XssTerminateTest < Test::Unit::TestCase
     assert_equal "<strong>Mallory</strong>", p.name
   end
   
-  def test_html5lib_sanitization_on_specified_fields
-    r = Review.create!(:title => "<script>alert('xss in title')</script>",
-                       :body => "<script>alert('xss in body')</script>",
-                       :extended => "<script>alert('xss in extended')</script>",
-                       :person_id => 1)
-                       
-    assert_equal [:body, :extended], r.xss_terminate_options[:html5lib_sanitize]
-
-    assert_equal "alert('xss in title')", r.title
-    
-    assert_equal "&lt;script&gt;alert('xss in body')&lt;/script&gt;", r.body
-    
-    assert_equal "&lt;script&gt;alert('xss in extended')&lt;/script&gt;", r.extended
-  end
-  
-  # issue reported by linojon
-  def test_nil_attributes_should_be_allowed_with_html5
-    review = Review.create!(:title => nil, :body => nil)
-    
-    assert_nil review.title
-    assert_nil review.body
-  end
-  
   # issue reported by Garrett Dimon and jmcnevin
   def test_active_record_session_store_does_not_cause_nil_exception
     assert_nil CGI::Session::ActiveRecordStore::Session.xss_terminate_options
