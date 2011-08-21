@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Luke Francl"]
   s.date = %q{2010-12-09}
-  s.description = %q{xss_terminate is a plugin in that makes stripping and sanitizing HTML stupid-simple. Install and forget. And forget about forgetting to h() your output, because you won‘t need to anymore.}
+  s.description = %q{xss_terminate is a plugin in that makes stripping and sanitizing HTML stupid-simple. Install and forget. And forget about forgetting to h() your output, because you won't need to anymore.}
   s.email = %q{look@recursion.org}
   s.extra_rdoc_files = [
     "README.rdoc"
