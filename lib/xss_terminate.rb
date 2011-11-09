@@ -13,7 +13,7 @@ module XssTerminate
     def xss_terminate(options = {})
       write_inheritable_attribute(:xss_terminate_options, {
         :except => (options[:except] || []),
-        :sanitize => (options[:sanitize] || [])
+        :html5lib_sanitize => (options[:html5lib_sanitize] || [])
       })
     end
   end
@@ -35,10 +35,10 @@ module XssTerminate
         
         if xss_terminate_options[:except].include?(field)
           next
-        elsif xss_terminate_options[:sanitize].include?(field)
+        elsif xss_terminate_options[:html5lib_sanitize].include?(field)
           self[field] = RailsSanitize.white_list_sanitizer.sanitize(value)
         else
-          self[field] = RailsSanitize.full_sanitizer.sanitize(value)
+          self[field] = ApplicationController.helpers.coupa_sanitize(value)
         end
       end
       
