@@ -38,7 +38,7 @@ module XssTerminate
         elsif xss_terminate_options[:html5lib_sanitize].include?(field)
           self[field] = RailsSanitize.white_list_sanitizer.sanitize(value)
         else
-          self[field] = ApplicationController.helpers.coupa_sanitize(value)
+          self[field] = CoupaHelper.coupa_sanitize(value)
         end
       end
       
