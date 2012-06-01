@@ -13,7 +13,8 @@ module XssTerminate
     def xss_terminate(options = {})
       write_inheritable_attribute(:xss_terminate_options, {
         :except => (options[:except] || []),
-        :html5lib_sanitize => (options[:html5lib_sanitize] || [])
+        :html5lib_sanitize => (options[:html5lib_sanitize] || []),
+        :html5lib_options => (options[:html5lib_options] || {})
       })
     end
   end
@@ -36,7 +37,13 @@ module XssTerminate
         if xss_terminate_options[:except].include?(field)
           next
         elsif xss_terminate_options[:html5lib_sanitize].include?(field)
-          self[field] = RailsSanitize.white_list_sanitizer.sanitize(value)
+          if  xss_terminate_options[:html5lib_options].nil?
+            self[field] = RailsSanitize.white_list_sanitizer.sanitize(value)
+          elsif xss_terminate_options[:html5lib_options].include?(:whitelist_attrs)
+            self[field] = RailsSanitize.white_list_sanitizer.sanitize(value,
+                           {:attributes => RailsSanitize.white_list_sanitizer.allowed_attributes +
+                             (Set.new(xss_terminate_options[:html5lib_options][:whitelist_attrs].map(&:to_s)))})
+          end
         else
           self[field] = CoupaHelper.coupa_sanitize(value)
         end
