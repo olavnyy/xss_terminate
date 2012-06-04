@@ -37,7 +37,7 @@ module XssTerminate
         if xss_terminate_options[:except].include?(field)
           next
         elsif xss_terminate_options[:html5lib_sanitize].include?(field)
-          if  xss_terminate_options[:html5lib_options].nil?
+          if  xss_terminate_options[:html5lib_options].empty?
             self[field] = RailsSanitize.white_list_sanitizer.sanitize(value)
           elsif xss_terminate_options[:html5lib_options].include?(:whitelist_attrs)
             self[field] = RailsSanitize.white_list_sanitizer.sanitize(value,
