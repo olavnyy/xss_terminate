@@ -5,17 +5,17 @@ module XssTerminate
     base.extend(ClassMethods)
     # sets up default of stripping tags for all fields
     base.send(:xss_terminate)
-    base.class_inheritable_reader :xss_terminate_options
     base.send :include, InstanceMethods
   end
 
   module ClassMethods
     def xss_terminate(options = {})
-      write_inheritable_attribute(:xss_terminate_options, {
+      class_attribute :xss_terminate_options
+      self.xss_terminate_options = {
         :except => (options[:except] || []),
         :html5lib_sanitize => (options[:html5lib_sanitize] || []),
         :html5lib_options => (options[:html5lib_options] || {})
-      })
+      }
     end
   end
   
