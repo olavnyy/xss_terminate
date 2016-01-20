@@ -37,13 +37,7 @@ module XssTerminate
         if xss_terminate_options[:except].include?(field)
           next
         elsif xss_terminate_options[:html5lib_sanitize].include?(field)
-          if  xss_terminate_options[:html5lib_options].empty?
-            self[field] = RailsSanitize.white_list_sanitizer.sanitize(value)
-          elsif xss_terminate_options[:html5lib_options].include?(:whitelist_attrs)
-            self[field] = RailsSanitize.white_list_sanitizer.sanitize(value,
-                           {:attributes => RailsSanitize.white_list_sanitizer.allowed_attributes +
-                             (Set.new(xss_terminate_options[:html5lib_options][:whitelist_attrs].map(&:to_s)))})
-          end
+          self[field] = RailsSanitize.white_list_sanitizer.sanitize(value)
         else
           self[field] = CoupaHelper.coupa_sanitize(value)
         end
