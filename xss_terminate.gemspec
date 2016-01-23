@@ -53,5 +53,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
   end
+
+  s.add_dependency "rails", "~> 4.2.5"
 end
 
