@@ -4,12 +4,17 @@ module XssTerminate
   def self.included(base)
     base.extend(ClassMethods)
     base.send(:include, InstanceMethods)
+    base.class_eval do
+      unless respond_to?(:xss_terminate_options)
+        class_attribute :xss_terminate_options
+        self.xss_terminate_options = nil
+      end
+    end
   end
 
   module ClassMethods
     def xss_terminate(options = {})
-      unless respond_to?(:xss_terminate_options)
-        class_attribute :xss_terminate_options
+      if self.xss_terminate_options.nil?
         self.xss_terminate_options = {
           except: [],
           html5lib_sanitize: [],
