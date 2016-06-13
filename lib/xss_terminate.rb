@@ -3,19 +3,30 @@ require 'rails_sanitize'
 module XssTerminate
   def self.included(base)
     base.extend(ClassMethods)
-    # sets up default of stripping tags for all fields
-    base.send(:xss_terminate)
-    base.send :include, InstanceMethods
+    base.send(:include, InstanceMethods)
+    base.class_eval do
+      unless respond_to?(:xss_terminate_options)
+        class_attribute :xss_terminate_options
+        self.xss_terminate_options = nil
+      end
+    end
   end
 
   module ClassMethods
     def xss_terminate(options = {})
-      class_attribute :xss_terminate_options
-      self.xss_terminate_options = {
-        :except => (options[:except] || []),
-        :html5lib_sanitize => (options[:html5lib_sanitize] || []),
-        :html5lib_options => (options[:html5lib_options] || {})
-      }
+      if self.xss_terminate_options.nil?
+        self.xss_terminate_options = {
+          except: [],
+          html5lib_sanitize: [],
+          html5lib_options: {},
+        }
+      end
+
+      xss_options = self.xss_terminate_options
+      xss_options[:except].concat(options[:except] || []).uniq!
+      xss_options[:html5lib_sanitize].concat(options[:html5lib_sanitize] || []).uniq!
+      xss_options[:html5lib_options].merge!(options[:html5lib_options] || {})
+      xss_options
     end
   end
   
