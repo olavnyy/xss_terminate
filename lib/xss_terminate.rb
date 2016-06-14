@@ -7,26 +7,27 @@ module XssTerminate
     base.class_eval do
       unless respond_to?(:xss_terminate_options)
         class_attribute :xss_terminate_options
-        self.xss_terminate_options = nil
-      end
-    end
-  end
-
-  module ClassMethods
-    def xss_terminate(options = {})
-      if self.xss_terminate_options.nil?
         self.xss_terminate_options = {
           except: [],
           html5lib_sanitize: [],
           html5lib_options: {},
         }
       end
+    end
+  end
 
-      xss_options = self.xss_terminate_options
+  module ClassMethods
+    def xss_terminate(options = {})
+      xss_options = self.xss_terminate_options.dup
+      xss_options[:except] = xss_options[:except].dup
+      xss_options[:html5lib_sanitize] = xss_options[:html5lib_sanitize].dup
+      xss_options[:html5lib_options] = xss_options[:html5lib_options].dup
+
       xss_options[:except].concat(options[:except] || []).uniq!
       xss_options[:html5lib_sanitize].concat(options[:html5lib_sanitize] || []).uniq!
       xss_options[:html5lib_options].merge!(options[:html5lib_options] || {})
-      xss_options
+
+      self.xss_terminate_options = xss_options
     end
   end
   
