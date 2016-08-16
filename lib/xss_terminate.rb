@@ -1,4 +1,5 @@
 require 'rails_sanitize'
+require 'coupa_sanitize'
 
 module XssTerminate
   def self.included(base)
@@ -51,7 +52,7 @@ module XssTerminate
         elsif xss_terminate_options[:html5lib_sanitize].include?(field)
           self[field] = RailsSanitize.white_list_sanitizer.sanitize(value)
         else
-          self[field] = CoupaHelper.coupa_sanitize(value)
+          self[field] = CoupaSanitize.perform(value)
         end
       end
       
