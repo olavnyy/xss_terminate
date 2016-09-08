@@ -54,6 +54,6 @@ Gem::Specification.new do |s|
     s.specification_version = 3
   end
 
-  s.add_dependency "rails", "~> 4.2.5"
+  s.add_dependency "rails", "~> 5.0"
 end
 
